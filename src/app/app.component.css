@@ -1,0 +1,25 @@
+.navbar{
+  justify-content: space-between;
+}
+span{
+  padding-right: 1rem;
+}
+
+mat-sidenav-container{
+  width: 100%;
+}
+mat-sidenav, mat-sidenav-content{
+  padding:16px;
+  backgroung-color: #650c0c;
+}
+mat-sidenav{
+  backgroung-color: #650c0c;
+  width:200px;
+}
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+h1 {
+  text-align: center;
+}
