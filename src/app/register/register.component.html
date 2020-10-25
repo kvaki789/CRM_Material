@@ -1,60 +1,48 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
+<div class="row">
 
-    <span class="example-fill-remaining-space"></span>
-    <span class="example-spacer"></span>
-
-    <button mat-button>About</button>
-    <button mat-button>Contact</button>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<mat-card class="example-card">
-  <mat-card-header>
-    <mat-card-title>Register Form</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form [formGroup]="registerForm">
-      <table class="example-full-width" cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="FirstName" formControlName="firstName" name="firstname" required>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="LastName" formControlName="lastName" name="lastname" required>
-            </mat-form-field>
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Username" formControlName="email" name="username" required>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td><mat-form-field class="example-full-width">
-            <input matInput placeholder="Password" formControlName="password" type="password" name="password" required>
-          </mat-form-field></td>
-          <tr>
-            <td>
-              <mat-form-field class="example-full-width">
-                <input matInput placeholder="cnfPassword" formControlName="cnfPassword" type="password" name="cnfPassword" required>
-                <p *ngIf="invalidPassword" style="color:red">Password does not match.</p>
-              </mat-form-field>
-            </td>
-          </tr>
-        </table>
+  <div class="col-md-6 offset-md-2">
+    <h1>Register Form </h1>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" class="form-control" formControlName="firstName" id="firstName">
+        <div *ngIf="submitted && registerForm.controls.firstName.errors" class="error">
+          <div *ngIf="registerForm.controls.firstName.errors.required">First Name is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" class="form-control" formControlName="lastName" id="lastName">
+        <div *ngIf="submitted && registerForm.controls.lastName.errors" class="error">
+          <div *ngIf="registerForm.controls.lastName.errors.required">Last Name is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email address:</label>
+        <input type="email" class="form-control" formControlName="email" id="email">
+        <div *ngIf="submitted && registerForm.controls.email.errors" class="error">
+          <div *ngIf="registerForm.controls.email.errors.required">Email is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" formControlName="password" id="pwd">
+        <div *ngIf="submitted && registerForm.controls.password.errors" class="error">
+          <div *ngIf="registerForm.controls.password.errors.required">Password is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="pwd">Confirm Password:</label>
+        <input type="password" class="form-control" formControlName="cnfPassword" id="cnfPassword">
+        <div *ngIf="submitted && registerForm.controls.cnfPassword.errors" class="error">
+          <div *ngIf="registerForm.controls.cnfPassword.errors.required">confirm Password is required</div>
+        </div>
+        <div *ngIf="invalidPassword" class="error">
+          <div>Password doesn't match</div>
+        </div>
+      </div>
+      <button class="btn btn-success">Submit</button>
+      
     </form>
-  </mat-card-content>
-  <mat-card-actions>
-
-    <button mat-raised-button color="primary" (click)='onSubmit()'>Submit</button>
-  </mat-card-actions>
-</mat-card>
+  </div>
+</div>

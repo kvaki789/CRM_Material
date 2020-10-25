@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {first} from "rxjs/operators";
-import {AuthenticationService} from "../service/auth.service";
-import {UserService} from "../service/user.service";
-import {User} from "../model/user.model";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { UserService } from "../service/user.service";
+import { User } from "../model/user.model";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,52 +11,74 @@ import {User} from "../model/user.model";
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  submitted: boolean = false;
+  submitted = false;
 
-  invalidLogin: boolean = false;
-  constructor(private formBuilder: FormBuilder, private router: Router,
-  private authService: AuthenticationService, private userService:UserService) { }
+  invalidLogin = false;
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) { }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
     if (this.loginForm.invalid) {
       return;
     }
-    let response=this.ValidatingUser(this.loginForm.controls.email.value)
-    if(response){
-    if( this.loginForm.controls.password.value == 'password') {
-    this.router.navigate(['list-user']);
-    }
-    else{
-    this.invalidLogin = true;
-    }
-    }
-    else{
-    this.invalidLogin = true;
-    }
+    // const response = this.ValidatingUser(this.loginForm.controls.email.value);
+    // if (response) {
+    //   if (this.loginForm.controls.password.value === 'password') {
+    //     this.router.navigate(['list-user']);
+    //   }
+    //   else {
+    //     this.invalidLogin = true;
+    //   }
+    // }
+    // else {
+    //   this.invalidLogin = true;
+    // }
+
+    this.userService.getUsers().subscribe(users => {
+      console.log(users);
+      const user = users.find(x => {
+        return x.email === this.loginForm.controls.email.value;
+      });
+      if (user) {
+          if (this.loginForm.controls.password.value === 'password') {
+            this.router.navigate(['list-user']);
+          }
+          else {
+            this.invalidLogin = true;
+          }
+      }
+      else {
+        this.invalidLogin = true;
+      }
+    });
+
+  }
+  ValidatingUser(email): void {
+
+    // this.userService.getUsers().subscribe(users => {
+    //   console.log(users);
+    //   const user = users.find(x => {
+    //     return x.email === this.loginForm.controls.email.value;
+    //   });
+    //   if (user) {
+    //       if (this.loginForm.controls.password.value === 'password') {
+    //         this.router.navigate(['list-user']);
+    //       }
+    //       else {
+    //         this.invalidLogin = true;
+    //       }
+    //     return true;
+    //   }
+    //   else {
+    //     this.invalidLogin = true;
+    //     return false;
+    //   }
+    // });
 
 
   }
-  ValidatingUser(email) {
 
-  let users:User[];
-this.userService.getUsers().subscribe(y=>{
-  users=y;
-  console.log(users);
-  })
-  let user=users.find(x=>{
-  return x.email===email;
-  })
-  if(user){
-  return true
-  }
-  else {
-  return false
-  }
-
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
 
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],

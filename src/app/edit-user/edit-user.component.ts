@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {UserService} from "../service/user.service";
+import { UserService } from "../service/user.service";
 
-import {Router} from "@angular/router";
-import {User} from "../model/user.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {first} from "rxjs/operators";
+import { Router } from "@angular/router";
+import { User } from "../model/user.model";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { first } from "rxjs/operators";
 
 @Component({
   selector: 'app-edit-user',
@@ -12,16 +12,16 @@ import {first} from "rxjs/operators";
   styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent implements OnInit {
-   user:User;
-   editForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private router:Router, private userService: UserService) { }
+  user: User;
+  editForm: FormGroup;
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
 
-  let userId = localStorage.getItem("editUserId");
-    if(!userId) {
+    const userId = localStorage.getItem("editUserId");
+    if (!userId) {
       alert("Invalid action.")
-      this.router.navigate(['list-user']);
+      this.router.navigate(['/list-user']);
       return;
     }
     this.editForm = this.formBuilder.group({
@@ -30,18 +30,25 @@ export class EditUserComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required]
     });
-    this.userService.getUserById(+userId)
-      .subscribe( data => {
+    // this.userService.getUserById(+userId)
+    //   .subscribe(data => {
+    //     this.editForm.setValue(data);
+    //   });
+    this.userService.getUsers()
+      .subscribe(users => {
+        const data = users.find(x => {
+          return x.id === +userId;
+        });
         this.editForm.setValue(data);
       });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.userService.updateUser(this.editForm.value)
       .pipe(first())
       .subscribe(
         data => {
-          this.router.navigate(['list-user']);
+          this.router.navigate(['/list-user']);
         },
         error => {
           alert(error);

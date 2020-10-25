@@ -1,6 +1,9 @@
-<div class="col-md-6">
+<div class="row">
+<div class="col-md-12">
+  <br>
   <h2> User Details</h2>
-  <button class="btn btn-danger" (click)="addUser()"> Add User</button>
+  <br>
+  <button class="btn btn-warning" (click)="addUser()"> Add User</button>
   <table class="table table-striped">
     <thead>
     <tr>
@@ -18,11 +21,9 @@
       <td>{{user.lastName}}</td>
       <td>{{user.email}}</td>
       <td><button class="btn btn-danger" (click)="deleteUser(user)"> Delete</button>
-        <button class="btn btn-danger" (click)="editUser(user)" style="margin-left: 20px;"> Edit</button></td>
+        <button class="btn btn-info" (click)="editUser(user)" style="margin-left: 20px;"> Edit</button></td>
     </tr>
     </tbody>
   </table>
 </div>
-
-
-<p>list-user works!</p>
+</div>
